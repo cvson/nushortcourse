@@ -1,5 +1,11 @@
-//try to make a toy monte carlo
-//pi calculation
+//
+//  pi.C
+////////////////////////////////////////////////////
+//
+//  Simple Monte Carlo for Pi calculation
+//
+///////////////////////////////////////////////////
+//  Created by S. Cao, cvson@utexas.edu
 void pi(){
     TCanvas *c1 = new TCanvas("c1","pi",800,800);
     gStyle->SetOptStat(0);
