@@ -1,3 +1,12 @@
+//
+//  plotMu2Mu.C
+////////////////////////////////////////////////////
+//
+//  Simple Monte Carlo for integral
+//
+///////////////////////////////////////////////////
+//  Created by S. Cao, cvson@utexas.edu
+
 //define simple oscillation prob. with four parameter
 //Two-flavor simple calculation
 //1. Neutrino energy
