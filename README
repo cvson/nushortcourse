@@ -1,2 +1,10 @@
-###This is code for short course
+### This is code for short course
++ basic01: Simple plot of oscillation probability
 
++ mctoy: Some toy Monte Carlo simulation (Pi calculation, etc..)
+
++ Prob3++: Package for oscillation probability calculation
+
++ OscCalculatorPMNS: Package for oscillation probability calculation with matrix handling
+
++ expflux: Storage of experimental flux 
