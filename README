@@ -1,4 +1,8 @@
 ### This is code for short course
+#########################
+#### We are in building the course,
+#### Email: cvson@utexas.edu if you are interested to join
+#########################
 + basic01: Simple plot of oscillation probability
 
 + mctoy: Some toy Monte Carlo simulation (Pi calculation, etc..)
@@ -7,4 +11,6 @@
 
 + OscCalculatorPMNS: Package for oscillation probability calculation with matrix handling
 
-+ expflux: Storage of experimental flux 
++ expflux: Storage of experimental flux
+
++ xsec: To store cross section file of neutrino interactions 
