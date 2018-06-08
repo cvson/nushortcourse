@@ -2,7 +2,7 @@
 //  plot_pmns_triangle.C
 ////////////////////////////////////////////////////
 //
-//  To read cross-section file and plot x-sec for different channels
+//  to plot PMNS triangle
 //
 ///////////////////////////////////////////////////
 //  Created by S. Cao, cvson@utexas.edu
