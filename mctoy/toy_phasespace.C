@@ -28,7 +28,7 @@
     //histogram to store basic info. for lepton
     TH1D *hmuon_momentum = new TH1D("hmuon_momentum", "", 100, 0, 1);
     TH1D *hmuon_angle = new TH1D("hmuon_angle", "", 180, 0, 180);
-    TH2D *hmuon_momvsangle = new TH1D("hmuon_momvsangle", "", 100, 0, 1,180,0,180);
+    TH2D *hmuon_momvsangle = new TH2D("hmuon_momvsangle", "", 100, 0, 1,180,0,180);
     
     //store basic info. in a tree
     TFile *pfile_ouput = new TFile("toy_phasespace_ccqe.root","RECREATE");
@@ -83,19 +83,24 @@
     new TCanvas;
     hmuon_angle->Draw();
     hmuon_angle->GetXaxis()->SetTitle("Scattering angle (^{#circ}) of induced muons");
-    hmuon_angle->GetXaxis()->SetTitle("Number of event generated");
+    hmuon_angle->GetYaxis()->SetTitle("Number of event generated");
+    gPad->Print("muon_angle.png");
     gPad->Print("muon_angle.eps");
     
     new TCanvas;
     hmuon_momentum->Draw();
     hmuon_momentum->GetXaxis()->SetTitle("Momentum [GeV] of induced muons");
-    hmuon_momentum->GetXaxis()->SetTitle("Number of event generated");
+    hmuon_momentum->GetYaxis()->SetTitle("Number of event generated");
+    gPad->Print("muon_momentum.png");
     gPad->Print("muon_momentum.eps");
     
     new TCanvas;
+    //increase right margin of Pad
+    gPad->SetRightMargin(gPad->GetRightMargin()*1.2);
     hmuon_momvsangle->Draw("colz");
     hmuon_momvsangle->GetXaxis()->SetTitle("Momentum [GeV] of induced muons");
     hmuon_momvsangle->GetYaxis()->SetTitle("Scattering angle (^{#circ}) of induced muons");
+    gPad->Print("muon_momvsangle.png");
     gPad->Print("muon_momvsangle.eps");
     
 }
