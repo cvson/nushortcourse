@@ -7,6 +7,9 @@
 ///////////////////////////////////////////////////
 //  Created by S. Cao, cvson@utexas.edu
 {
+    //this is to load style for plot.
+    gROOT->ProcessLine(".x rootlogon.C");
+    
     gSystem.Load("libPhysics");
     double muonmass = 0.105658357; // muon mass in GeV
     double protonmass = 0.93827208;
@@ -25,6 +28,7 @@
     //histogram to store basic info. for lepton
     TH1D *hmuon_momentum = new TH1D("hmuon_momentum", "", 100, 0, 1);
     TH1D *hmuon_angle = new TH1D("hmuon_angle", "", 180, 0, 180);
+    TH2D *hmuon_momvsangle = new TH1D("hmuon_momvsangle", "", 100, 0, 1,180,0,180);
     
     //store basic info. in a tree
     TFile *pfile_ouput = new TFile("toy_phasespace_ccqe.root","RECREATE");
@@ -66,15 +70,32 @@
         //store basic info. for proton
         hmuon_momentum->Fill(pMuon->P());
         hmuon_angle->Fill(pMuon->Theta()*180/TMath::Pi());
+        hmuon_momvsangle->Fill(pMuon->P(),pMuon->Theta()*180/TMath::Pi());
         ptree->Fill();
     }
     hmuon_momentum->Write("hmuon_momentum");
     hmuon_angle->Write("hmuon_angle");
+    hmuon_momvsangle->Write("hmuon_momvsangle");
     ptree->Write();
     pfile_ouput->Close();
     
     //you can make simple plot here
     new TCanvas;
     hmuon_angle->Draw();
+    hmuon_angle->GetXaxis()->SetTitle("Scattering angle (^{#circ}) of induced muons");
+    hmuon_angle->GetXaxis()->SetTitle("Number of event generated");
     gPad->Print("muon_angle.eps");
+    
+    new TCanvas;
+    hmuon_momentum->Draw();
+    hmuon_momentum->GetXaxis()->SetTitle("Momentum [GeV] of induced muons");
+    hmuon_momentum->GetXaxis()->SetTitle("Number of event generated");
+    gPad->Print("muon_momentum.eps");
+    
+    new TCanvas;
+    hmuon_momvsangle->Draw("colz");
+    hmuon_momvsangle->GetXaxis()->SetTitle("Momentum [GeV] of induced muons");
+    hmuon_momvsangle->GetYaxis()->SetTitle("Scattering angle (^{#circ}) of induced muons");
+    gPad->Print("muon_momvsangle.eps");
+    
 }
