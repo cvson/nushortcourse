@@ -4,6 +4,7 @@
 //
 //  To get event rate from production of flux and xsec
 //   extension: include detection efficiency
+//  To run: root -b -q event_rate.C
 ///////////////////////////////////////////////////
 //  Created by S. Cao, cvson@utexas.edu
 void event_rate(){
@@ -147,6 +148,14 @@ void event_rate(){
     }
     leg0->Draw();
     gPad->Print("t2kexp_eventrate_22d5ktonH20_fardet.eps");
+    
+    //to save in a root file for reading later
+    TFile *popfile = new TFile("op_eventrate.root","RECREATE");
+    for (Int_t ichan=0; ichan<NCHAN4SHOW; ++ichan) {
+        heventrate4show[0][ichan]->Write(Form("ND_eventrate_chan%d",ichan));
+        heventrate4show[1][ichan]->Write(Form("FD_eventrate_chan%d",ichan));
+    }
+    popfile->Close();
     
     
     
