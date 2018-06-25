@@ -1,5 +1,5 @@
 //
-//  pred_ccqe_numudisapearance.C
+//  pred3_ccqe_numudisapearance.C
 // using ouput from sensitivity_ccqe_numudisapearance.C
 ////////////////////////////////////////////////////
 //
@@ -33,7 +33,7 @@ double model2flav_vac_MuSurvive(double Ene, double baseL, double theta_23, doubl
     return probmu2mu;
 }
 
-void pred_ccqe_numudisapearance(){
+void pred3_ccqe_numudisapearance(){
     
     
     TFile *pfile = new TFile("op_eventmc_4sensitivity.root","READ");
@@ -55,6 +55,7 @@ void pred_ccqe_numudisapearance(){
             hpred_osc[idm][itheta] = (TH1D*)pfile->Get(Form("hpred_osc_dmbin%d_thetabin%d",idm,itheta));
         }
     }
+    
     TH1D *hpred_noosc = (TH1D*)pfile->Get("hpred_noosc");
     TH1D *hdata = (TH1D*)pfile->Get("hdata");
     
@@ -74,13 +75,49 @@ void pred_ccqe_numudisapearance(){
     hpred_noosc->SetLineWidth(2);
     hpred_noosc->SetLineColor(13);
     hpred_noosc->Draw("hist same");
-    TLegend* leg0 = new TLegend(.52, .58, 0.85, .82);
+    //to plot additional point
+    int dmBIN_atBEST = (dm23_BEST-dm23_MIN)*NDM23BIN/(dm23_MAX-dm23_MIN)-0.5;
+    int thBIN_atBEST = (theta_BEST-theta_MIN)*NTHETA23BIN/(theta_MAX-theta_MIN)-0.5;
+    cout<<"BINS at best fit point for theta "<<thBIN_atBEST<<" for dm "<<dmBIN_atBEST<<endl;
+    
+    int ith_th23bin = 1;
+    int ith_dm32bin = dmBIN_atBEST;
+    double dm_val1 = dm23_MIN + (dm23_MAX-dm23_MIN)*(ith_dm32bin+0.5)/NDM23BIN;
+    double theta_val1 = theta_MIN + (theta_MAX-theta_MIN)*(ith_th23bin+0.5)/NTHETA23BIN;
+    cout <<"prediction at dm "<<dm_val1<<" theta "<<theta_val1<<endl;
+    TH1D* hpred_osc1 = (TH1D*)hpred_osc[ith_dm32bin][ith_th23bin]->Clone("hpred_osc1");
+    hpred_osc1->SetLineColor(2);
+    hpred_osc1->SetLineWidth(2);
+    hpred_osc1->Draw("hist same");
+    
+    ith_th23bin = thBIN_atBEST;
+    double dm_val2 = dm23_MIN + (dm23_MAX-dm23_MIN)*(ith_dm32bin+0.5)/NDM23BIN;
+    double theta_val2 = theta_MIN + (theta_MAX-theta_MIN)*(ith_th23bin+0.5)/NTHETA23BIN;
+    cout <<"prediction at dm "<<dm_val2<<" theta "<<theta_val2<<endl;
+    TH1D* hpred_osc2 = (TH1D*)hpred_osc[ith_dm32bin][ith_th23bin]->Clone("hpred_osc2");
+    hpred_osc2->SetLineColor(4);
+    hpred_osc2->SetLineWidth(2);
+    hpred_osc2->Draw("hist same");
+    
+    ith_dm32bin = 49;
+    double dm_val3 = dm23_MIN + (dm23_MAX-dm23_MIN)*(ith_dm32bin+0.5)/NDM23BIN;
+    double theta_val3 = theta_MIN + (theta_MAX-theta_MIN)*(ith_th23bin+0.5)/NTHETA23BIN;
+    cout <<"prediction at dm "<<dm_val3<<" theta "<<theta_val3<<endl;
+    TH1D* hpred_osc3 = (TH1D*)hpred_osc[ith_dm32bin][ith_th23bin]->Clone("hpred_osc3");
+    hpred_osc3->SetLineColor(8);
+    hpred_osc3->SetLineWidth(2);
+    hpred_osc3->Draw("hist same");
+    
+    TLegend* leg0 = new TLegend(.42, .58, 0.85, .82);
     leg0->SetFillStyle(0);
     leg0->SetBorderSize(0);
     leg0->SetTextSize(18);
     leg0->SetTextFont(43);
     leg0->AddEntry(hdata, "Data", "ep");
     leg0->AddEntry(hpred_noosc, "Unoscillated Prediction", "l");
+    leg0->AddEntry(hpred_osc1, Form("(#Delta m^{2}=%.5f,sin^{2}2#theta=%.2f)",dm_val1,theta_val1), "l");
+    leg0->AddEntry(hpred_osc2, Form("(#Delta m^{2}=%.5f,sin^{2}2#theta=%.2f)",dm_val2,theta_val2), "l");
+    leg0->AddEntry(hpred_osc3, Form("(#Delta m^{2}=%.5f,sin^{2}2#theta=%.2f)",dm_val3,theta_val3), "l");
     leg0->Draw();
     
     c1->cd(2);
@@ -88,6 +125,20 @@ void pred_ccqe_numudisapearance(){
     TH1D* hratio = (TH1D*)hdata->Clone("hratio");
     hratio->Sumw2();
     hratio->Divide(hpred_noosc);
+    
+    TH1D* hratio1 = (TH1D*)hpred_osc1->Clone("hratio1");
+    hratio1->Sumw2();
+    hratio1->Divide(hpred_noosc);
+    
+    TH1D* hratio2 = (TH1D*)hpred_osc2->Clone("hratio1");
+    hratio2->Sumw2();
+    hratio2->Divide(hpred_noosc);
+    
+    TH1D* hratio3 = (TH1D*)hpred_osc3->Clone("hratio1");
+    hratio3->Sumw2();
+    hratio3->Divide(hpred_noosc);
+    
+    
     for (Int_t ibin=1; ibin<=hratio->GetXaxis()->GetNbins(); ibin++) {
         Float_t err1;
         if (hpred_noosc->GetBinContent(ibin)!=0) {
@@ -97,15 +148,18 @@ void pred_ccqe_numudisapearance(){
       
     }
     hratio->GetXaxis()->SetTitle("Neutrino Energy [GeV]");
-    hratio->GetYaxis()->SetTitle("Data / Prediction");
+    hratio->GetYaxis()->SetTitle("Data / Unoscillated Pred.");
     
     hratio->GetYaxis()->SetRangeUser(0,2.);
     hratio->Draw("ep");
+    hratio1->Draw("hist same");
+    hratio2->Draw("hist same");
+    hratio3->Draw("hist same");
     hratio->GetYaxis()->SetTitleOffset(1.5);
     TLine *poneline = new TLine(0,1.,EnergyRange2Draw,1.0);
     poneline->SetLineStyle(7);
     poneline->Draw();
-    c1->Print("pred_datavsnoosc.eps");
+    c1->Print("pred3_datavsnoosc.eps");
     
     
     
