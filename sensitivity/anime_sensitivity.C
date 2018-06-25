@@ -1,5 +1,5 @@
 //
-//  pred_ccqe_numudisapearance.C
+//  pred3_ccqe_numudisapearance.C
 // using ouput from sensitivity_ccqe_numudisapearance.C
 ////////////////////////////////////////////////////
 //
@@ -33,7 +33,7 @@ double model2flav_vac_MuSurvive(double Ene, double baseL, double theta_23, doubl
     return probmu2mu;
 }
 
-void pred_ccqe_numudisapearance(){
+void anime_sensitivity(){
     
     
     TFile *pfile = new TFile("op_eventmc_4sensitivity.root","READ");
@@ -55,8 +55,14 @@ void pred_ccqe_numudisapearance(){
             hpred_osc[idm][itheta] = (TH1D*)pfile->Get(Form("hpred_osc_dmbin%d_thetabin%d",idm,itheta));
         }
     }
+    
     TH1D *hpred_noosc = (TH1D*)pfile->Get("hpred_noosc");
     TH1D *hdata = (TH1D*)pfile->Get("hdata");
+    
+    gBenchmark->Start("hsen");
+    gSystem->Unlink("hsensitivity_anime.gif"); // delete old file
+    //condition to print
+    const Int_t kUPDATE = 50;
     
     TCanvas *c1 = new TCanvas("c1","",0,0,1400,700);
     c1->Divide(2,1);
@@ -74,50 +80,54 @@ void pred_ccqe_numudisapearance(){
     hpred_noosc->SetLineWidth(2);
     hpred_noosc->SetLineColor(13);
     hpred_noosc->Draw("hist same");
-    TLegend* leg0 = new TLegend(.52, .58, 0.85, .82);
-    leg0->SetFillStyle(0);
-    leg0->SetBorderSize(0);
-    leg0->SetTextSize(18);
-    leg0->SetTextFont(43);
-    leg0->AddEntry(hdata, "Data", "ep");
-    leg0->AddEntry(hpred_noosc, "Unoscillated Prediction", "l");
-    leg0->Draw();
+    //to plot additional point
+    int dmBIN_atBEST = (dm23_BEST-dm23_MIN)*NDM23BIN/(dm23_MAX-dm23_MIN)-0.5;
+    int thBIN_atBEST = (theta_BEST-theta_MIN)*NTHETA23BIN/(theta_MAX-theta_MIN)-0.5;
+    cout<<"BINS at best fit point for theta "<<thBIN_atBEST<<" for dm "<<dmBIN_atBEST<<endl;
     
+    //emty histogram
     c1->cd(2);
-    gStyle->SetOptStat(0);
-    TH1D* hratio = (TH1D*)hdata->Clone("hratio");
-    hratio->Sumw2();
-    hratio->Divide(hpred_noosc);
-    for (Int_t ibin=1; ibin<=hratio->GetXaxis()->GetNbins(); ibin++) {
-        Float_t err1;
-        if (hpred_noosc->GetBinContent(ibin)!=0) {
-            err1 = sqrt(hdata->GetBinContent(ibin))/hpred_noosc->GetBinContent(ibin);
-            hratio->SetBinError(ibin,err1);
-        }
-      
-    }
-    hratio->GetXaxis()->SetTitle("Neutrino Energy [GeV]");
-    hratio->GetYaxis()->SetTitle("Data / Prediction");
-    
-    hratio->GetYaxis()->SetRangeUser(0,2.);
-    hratio->Draw("ep");
-    hratio->GetYaxis()->SetTitleOffset(1.5);
-    TLine *poneline = new TLine(0,1.,EnergyRange2Draw,1.0);
-    poneline->SetLineStyle(7);
-    poneline->Draw();
-    c1->Print("pred_datavsnoosc.eps");
-    
-    
-    
-    
-    //surface of chisq
-    /*TH2D *hsurface = new TH2D("hsurface","",NTHETA23BIN,theta_MIN,theta_MAX,NDM23BIN,dm23_MIN,dm23_MAX);
-    for (int idm=0; idm<NDM23BIN; ++idm) {
-        for (int itheta=0; itheta<NTHETA23BIN; ++itheta) {
-            double likelihood = LogLikelihood(hpred_osc[idm][itheta],hdata);
+     TGaxis::SetMaxDigits(3);
+    TH2D *hsurface = new TH2D("hsurface","",NTHETA23BIN-1,theta_MIN,theta_MAX,NDM23BIN-1,dm23_MIN,dm23_MAX);
+    hsurface->GetXaxis()->SetTitle("sin^{2}2#theta");
+    hsurface->GetYaxis()->SetTitle("#Delta m^{2} [eV^{2}/c^{4}]");
+    hsurface->GetYaxis()->SetTitleOffset(1.2);
+    hsurface->Draw("AXIS");
+    hsurface->GetZaxis()->SetRangeUser(0,25);
+    Int_t nhist2plots=0;
+    Int_t totalist = (NDM23BIN-1)* (NTHETA23BIN-1);
+    for (int idm=1; idm<NDM23BIN; ++idm) {
+        for (int itheta=1; itheta<NTHETA23BIN; ++itheta) {
+            ++nhist2plots;
+            c1->cd(1);
+            int colorindex = (idm*itheta+1)%10;
+            hpred_osc[idm-1][itheta-1]->SetLineColor(colorindex);
+            hpred_osc[idm-1][itheta-1]->Draw("hist same");
+            c1->cd(2);
+            double likelihood = LogLikelihood(hpred_osc[idm-1][itheta-1],hdata);
             hsurface->SetBinContent(itheta,idm,likelihood);
+            hsurface->Draw("colz");
+            if(nhist2plots && (nhist2plots%kUPDATE==0)){
+                c1->cd(1);
+                hdata->Draw("ep same");
+                c1->Update();
+                if (gROOT->IsBatch()) {
+                    c1->Print("hsensitivity_anime.gif+");
+                    printf("i = %d/%d\n", nhist2plots,totalist);
+                }
+            }
+            
         }
-    }*/
+    }
+    
+    
+ 
+    
+    if (gROOT->IsBatch()) c1->Print("hsensitivity_anime.gif++");
+    gBenchmark->Show("hsen");
+    
+    
+
     
   
 

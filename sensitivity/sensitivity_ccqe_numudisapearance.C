@@ -59,12 +59,12 @@ void sensitivity_ccqe_numudisapearance(){
     
     const double T2KBASELINE = 295;//km
     
-    const int NTHETA23BIN = 50;
+    const int NTHETA23BIN = 51;//50+1
     const double theta_MIN = 0.5;
     const double theta_MAX = 1;
     const double theta_BEST = 0.95;//45*Pi/180
     
-    const int NDM23BIN = 50;
+    const int NDM23BIN = 51;//50+1
     const double dm23_MIN = 2e-3;
     const double dm23_MAX = 3e-3;
     const double dm23_BEST = 2.4e-3;//eV
@@ -86,9 +86,9 @@ void sensitivity_ccqe_numudisapearance(){
         hpred_noosc->Fill(Enu);
         
         for (int idm=0; idm<NDM23BIN; ++idm) {
-            double dm_val = dm23_MIN + (dm23_MAX-dm23_MIN)*(idm+0.5)/NDM23BIN;
+            double dm_val = dm23_MIN + (dm23_MAX-dm23_MIN)*(idm+0.5)/(NDM23BIN-1);
             for (int itheta=0; itheta<NTHETA23BIN; ++itheta) {
-                double theta_val = theta_MIN + (theta_MAX-theta_MIN)*(itheta+0.5)/NTHETA23BIN;
+                double theta_val = theta_MIN + (theta_MAX-theta_MIN)*(itheta+0.5)/(NTHETA23BIN-1);
                 ProbMu2mu = model2flav_vac_MuSurvive(Enu,T2KBASELINE,theta_val,dm_val);
                 hpred_osc[idm][itheta]->Fill(Enu,ProbMu2mu);
             }
@@ -113,10 +113,10 @@ void sensitivity_ccqe_numudisapearance(){
     hpred_noosc->Write("hpred_noosc");
     
     //surface of chisq
-    TH2D *hsurface = new TH2D("hsurface","",NTHETA23BIN,theta_MIN,theta_MAX,NDM23BIN,dm23_MIN,dm23_MAX);
-    for (int idm=0; idm<NDM23BIN; ++idm) {
-        for (int itheta=0; itheta<NTHETA23BIN; ++itheta) {
-            double likelihood = LogLikelihood(hpred_osc[idm][itheta],hdata);
+    TH2D *hsurface = new TH2D("hsurface","",NTHETA23BIN-1,theta_MIN,theta_MAX,NDM23BIN-1,dm23_MIN,dm23_MAX);
+    for (int idm=1; idm<NDM23BIN; ++idm) {
+        for (int itheta=1; itheta<NTHETA23BIN; ++itheta) {
+            double likelihood = LogLikelihood(hpred_osc[idm-1][itheta-1],hdata);
             hsurface->SetBinContent(itheta,idm,likelihood);
         }
     }

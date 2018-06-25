@@ -37,12 +37,12 @@ void pred3_ccqe_numudisapearance(){
     
     
     TFile *pfile = new TFile("op_eventmc_4sensitivity.root","READ");
-    const int NTHETA23BIN = 50;
+    const int NTHETA23BIN = 51;
     const double theta_MIN = 0.5;
     const double theta_MAX = 1;
     const double theta_BEST = 0.95;//45*Pi/180
     
-    const int NDM23BIN = 50;
+    const int NDM23BIN = 51;
     const double dm23_MIN = 2e-3;
     const double dm23_MAX = 3e-3;
     const double dm23_BEST = 2.4e-3;//eV
@@ -76,14 +76,14 @@ void pred3_ccqe_numudisapearance(){
     hpred_noosc->SetLineColor(13);
     hpred_noosc->Draw("hist same");
     //to plot additional point
-    int dmBIN_atBEST = (dm23_BEST-dm23_MIN)*NDM23BIN/(dm23_MAX-dm23_MIN)-0.5;
-    int thBIN_atBEST = (theta_BEST-theta_MIN)*NTHETA23BIN/(theta_MAX-theta_MIN)-0.5;
+    int dmBIN_atBEST = (dm23_BEST-dm23_MIN)*(NDM23BIN-1)/(dm23_MAX-dm23_MIN)-0.5;
+    int thBIN_atBEST = (theta_BEST-theta_MIN)*(NTHETA23BIN-1)/(theta_MAX-theta_MIN)-0.5;
     cout<<"BINS at best fit point for theta "<<thBIN_atBEST<<" for dm "<<dmBIN_atBEST<<endl;
     
     int ith_th23bin = 1;
     int ith_dm32bin = dmBIN_atBEST;
-    double dm_val1 = dm23_MIN + (dm23_MAX-dm23_MIN)*(ith_dm32bin+0.5)/NDM23BIN;
-    double theta_val1 = theta_MIN + (theta_MAX-theta_MIN)*(ith_th23bin+0.5)/NTHETA23BIN;
+    double dm_val1 = dm23_MIN + (dm23_MAX-dm23_MIN)*(ith_dm32bin+0.5)/(NDM23BIN-1);
+    double theta_val1 = theta_MIN + (theta_MAX-theta_MIN)*(ith_th23bin+0.5)/(NTHETA23BIN-1);
     cout <<"prediction at dm "<<dm_val1<<" theta "<<theta_val1<<endl;
     TH1D* hpred_osc1 = (TH1D*)hpred_osc[ith_dm32bin][ith_th23bin]->Clone("hpred_osc1");
     hpred_osc1->SetLineColor(2);
@@ -91,8 +91,8 @@ void pred3_ccqe_numudisapearance(){
     hpred_osc1->Draw("hist same");
     
     ith_th23bin = thBIN_atBEST;
-    double dm_val2 = dm23_MIN + (dm23_MAX-dm23_MIN)*(ith_dm32bin+0.5)/NDM23BIN;
-    double theta_val2 = theta_MIN + (theta_MAX-theta_MIN)*(ith_th23bin+0.5)/NTHETA23BIN;
+    double dm_val2 = dm23_MIN + (dm23_MAX-dm23_MIN)*(ith_dm32bin+0.5)/(NDM23BIN-1);
+    double theta_val2 = theta_MIN + (theta_MAX-theta_MIN)*(ith_th23bin+0.5)/(NTHETA23BIN-1);
     cout <<"prediction at dm "<<dm_val2<<" theta "<<theta_val2<<endl;
     TH1D* hpred_osc2 = (TH1D*)hpred_osc[ith_dm32bin][ith_th23bin]->Clone("hpred_osc2");
     hpred_osc2->SetLineColor(4);
@@ -100,8 +100,8 @@ void pred3_ccqe_numudisapearance(){
     hpred_osc2->Draw("hist same");
     
     ith_dm32bin = 49;
-    double dm_val3 = dm23_MIN + (dm23_MAX-dm23_MIN)*(ith_dm32bin+0.5)/NDM23BIN;
-    double theta_val3 = theta_MIN + (theta_MAX-theta_MIN)*(ith_th23bin+0.5)/NTHETA23BIN;
+    double dm_val3 = dm23_MIN + (dm23_MAX-dm23_MIN)*(ith_dm32bin+0.5)/(NDM23BIN-1);
+    double theta_val3 = theta_MIN + (theta_MAX-theta_MIN)*(ith_th23bin+0.5)/(NTHETA23BIN-1);
     cout <<"prediction at dm "<<dm_val3<<" theta "<<theta_val3<<endl;
     TH1D* hpred_osc3 = (TH1D*)hpred_osc[ith_dm32bin][ith_th23bin]->Clone("hpred_osc3");
     hpred_osc3->SetLineColor(8);
