@@ -1,0 +1,24 @@
+1. Star ROOT program root 
+2> Loadding the script .L createData.C
+3> Running program
+create_lin (1000)
+	this to create anti-correlation
+create_lin_org(1000)
+	 root -b -q 'TMVAClassification_test_boundary.C("")'
+	root -b -q PlotDecisionBoundary.C
+create_3Bumps(3000)
+	root -b -q TMVAClassification_test_boundary_3bumps.C
+	root -b -q PlotDecisionBoundary_3bumps.C
+create_circ(3000,true)
+	root -b -q TMVAClassification_test_boundary_circle.C
+	root -b -q PlotDecisionBoundary_circle.C
+
+create_schachbrett_2D(8000,2)
+	root -b -q TMVAClassification_test_boundary_schachbrett2d.C
+	root -b -q PlotDecisionBoundary_schachbrett2d.C
+
+TMVAGui.C
+createData.C
+tmvaglob.C
+
+

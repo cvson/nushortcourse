@@ -1468,7 +1468,7 @@ void create_circ(Int_t N  = 6000, Bool_t distort = false)
    Float_t xvar[nvar];
 
    // output flie
-   TFile* dataFile = TFile::Open( "data.root", "RECREATE" );
+   TFile* dataFile = TFile::Open( "data_circle.root", "RECREATE" );
 
    // create signal and background trees
    TTree* treeS = new TTree( "TreeS", "TreeS", 1 );   
@@ -1537,7 +1537,8 @@ void create_circ(Int_t N  = 6000, Bool_t distort = false)
    dataFile->Close();
    cout << "created data file: " << dataFile->GetName() << endl;
 
-   plot();
+   //plot();
+    plot("data_circle.root","var0","var1");
 }
 
 
@@ -1547,7 +1548,7 @@ void create_schachbrett(Int_t nEvents = 20000) {
    Float_t xvar[nvar];
 
    // output flie
-   TFile* dataFile = TFile::Open( "data.root", "RECREATE" );
+   TFile* dataFile = TFile::Open( "data_schachbrett.root", "RECREATE" );
 
    // create signal and background trees
    TTree* treeS = new TTree( "TreeS", "TreeS", 1 );   
@@ -1807,7 +1808,7 @@ void create_schachbrett_2D(Int_t nEvents = 100000, Int_t nbumps=2) {
    Float_t xvar[nvar];
 
    // output flie
-   TFile* dataFile = TFile::Open( "data.root", "RECREATE" );
+   TFile* dataFile = TFile::Open( "data_schachbrett_2D.root", "RECREATE" );
 
    // create signal and background trees
    TTree* treeS = new TTree( "TreeS", "TreeS", 1 );   
@@ -1855,7 +1856,8 @@ void create_schachbrett_2D(Int_t nEvents = 100000, Int_t nbumps=2) {
    dataFile->Close();
    cout << "created data file: " << dataFile->GetName() << endl;
 
-   plot();
+   //plot();
+    plot("data_schachbrett_2D.root","var0","var1");
 
 }
 

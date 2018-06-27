@@ -35,8 +35,9 @@
 
 using namespace TMVA;
 
-const TString methodStr ="LD";
-//const TString methodStr ="KNN";
+const TString methodStr ="KNN";
+//const TString methodStr ="FDA_GA";
+//const TString methodStr ="SVM";
 void plot(TH2D *sig, TH2D *bkg, TH2F *MVA, TString v0="var0", TString v1="var1",Float_t mvaCut=0){
 
    TCanvas *c = new TCanvas(Form("DecisionBoundary%s",MVA->GetTitle()),MVA->GetTitle(),1000,700);
@@ -67,10 +68,7 @@ void plot(TH2D *sig, TH2D *bkg, TH2F *MVA, TString v0="var0", TString v1="var1",
 	sig->GetYaxis()->CenterTitle();
     gStyle->SetOptStat(0);
    sig->Draw();
-    sig->GetXaxis()->SetLimits(-5,5);
-    sig->GetYaxis()->SetLimits(-5,5);
    bkg->Draw("same");
-    // Draw legend
     TLegend *legend = new TLegend( 1 - c->GetRightMargin() - 0.32, 1 - c->GetTopMargin() - 0.12,
                                   1 - c->GetRightMargin(), 1 - c->GetTopMargin() );
     //legend->SetFillColor(10);
@@ -80,18 +78,19 @@ void plot(TH2D *sig, TH2D *bkg, TH2F *MVA, TString v0="var0", TString v1="var1",
     legend->Draw("same");
     legend->SetBorderSize(1);
     legend->SetMargin( 0.3 );
-    c->Print("data_linear_raw.eps");
-    //c->Print(Form("DecisionBoundary%s_",MVA->GetTitle())+methodStr+"_linear.pdf");
+    c->Print("data_schachbrett2d_raw.eps");
+   
+    //c->Print(Form("DecisionBoundary%s_",MVA->GetTitle())+methodStr+"_schachbrett2d.pdf");
    MVA->Draw("CONT2 same");
-	c->Print(Form("DecisionBoundary%s_",MVA->GetTitle())+methodStr+"_linear.eps");
-	//c->Print(Form("DecisionBoundary%s_",MVA->GetTitle())+methodStr+"_linear.pdf");
-	//c->Print(Form("DecisionBoundary%s_",MVA->GetTitle())+methodStr+"_linear.C");
+	c->Print(Form("DecisionBoundary%s_",MVA->GetTitle())+methodStr+"_schachbrett2d.eps");
+	//c->Print(Form("DecisionBoundary%s_",MVA->GetTitle())+methodStr+"_schachbrett2d.pdf");
+	//c->Print(Form("DecisionBoundary%s_",MVA->GetTitle())+methodStr+"_schachbrett2d.C");
 }
 
 
-void PlotDecisionBoundary( TString weightFile = "weights/TMVAClassification_test_boundary_KNN.weights.xml",TString v0="var0", TString v1="var1", TString dataFileName = "data_test_boundary.root") 
+void PlotDecisionBoundary_schachbrett2d( TString weightFile = "weights/TMVAClassification_test_boundary_schachbrett2d_KNN.weights.xml",TString v0="var0", TString v1="var1", TString dataFileName = "data_schachbrett_2D.root")
 {   
-	weightFile = "weights/TMVAClassification_test_boundary_"+methodStr+".weights.xml";
+	weightFile = "weights/TMVAClassification_test_boundary_schachbrett2d_"+methodStr+".weights.xml";
    //---------------------------------------------------------------
    // default MVA methods to be trained + tested
 
@@ -289,7 +288,7 @@ void PlotDecisionBoundary( TString weightFile = "weights/TMVAClassification_test
    //
    // write histograms
    //
-   TFile *target  = new TFile( "TMVAPlotDecisionBoundary.root","RECREATE" );
+   TFile *target  = new TFile( "TMVAPlotDecisionBoundary_schachbrett2d.root","RECREATE" );
 
    hs->Write();
    hb->Write();
