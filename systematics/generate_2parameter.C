@@ -105,10 +105,12 @@ void plot_histogram_2d(){
     double maxvaluey = meanvalue2+4*rmsvalue2;
     double minvaluey = meanvalue2-4*rmsvalue2;
     TH2F* hhisto = new TH2F( "Histogram", " " ,50,minvalue,maxvalue,50,minvaluey,maxvaluey);
+    TH1F* hhisto_effect = new TH1F( "Histogram_effect", " " ,100,0.5,1.5);
     for (Int_t ientry=0; ientry<NEntry; ++ientry) {
         cfile >> ithentry >> ithvalue>>ithvaluey;
         //cout<<"entry "<<ithentry<<" values "<<ithvalue<<endl;
         hhisto->Fill(ithvalue,ithvaluey);
+        hhisto_effect->Fill(ithvalue*ithvaluey);
     }
     hhisto->GetXaxis()->SetTitle("Values of variable X");
     hhisto->GetYaxis()->SetTitle("Values of variable Y");
@@ -170,12 +172,19 @@ void plot_histogram_2d(){
     st3->SetX2NDC(0.85);
     
     //hhisto->Draw("colz");
-    c1->Print("basic_histogram_2d_10k.eps");
+    c1->Print("basic_histogram_2d_10k_nocov.eps");
     
     center_pad->cd();
     hhisto->Draw("COLZ");
     c1->Modified();
-     c1->Print("basic_histogram_2d_10k_colz.eps");
+     c1->Print("basic_histogram_2d_10k_colz_nocov.eps");
+    
+    new TCanvas;
+    gStyle->SetOptStat(1111);
+    hhisto_effect->Draw("hist");
+    hhisto_effect->GetXaxis()->SetTitle("Total systematics effects");
+    hhisto_effect->GetYaxis()->SetTitle("Number of entries");
+    gPad->Print("systematics_effect_nocov.eps");
     
     /*new TCanvas;
     hhisto->Draw();
