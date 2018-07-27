@@ -1,4 +1,6 @@
-### This is code for short course
+### This is code for short course: Introduction to experimental neutrino physics
+## Delivered firstly at VSON 2018, slides can be found at
+#### http://ifirse.icise.vn/nugroup/vson/2018/lectures/exp_concept_nutshell_white.pdf
 #########################
 #### We are in building the course,
 #### Email: cvson@utexas.edu if you are interested to join
@@ -18,4 +20,10 @@
 + eventpred: to predic number of neutrino events observed in experiment
 
 + unitary: for PMNS unitary
- 
+
++ sensitivity: for understand how to estimate parameters
+
++ systematics: to understand role of systematics
+
++ datamining: for data mining with boundary decision, selection
+  
