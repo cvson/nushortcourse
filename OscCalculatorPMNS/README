@@ -1,4 +1,9 @@
 I didn't own this package.
++ T2K_true.C -> to plot the bi-probability for T2K, NOvA and DUNE
++ th23vsL.C then plot_th23vsL.C -> to study the correlation between mixing angle theta_23 and baseline
++ dcpvsL.C then plot_dcpvsL.C -> to study the correlation between dcp and baseline
++ th23vsdcpvsth13.C then plot_dcpth23_prob_root6_clonesol_v3.C -> to study the correlation among theta23, theta13 and dcp
+
 Source codes in: 
 - OscCalculatorPMNS.h
 - OscCalculatorPMNS.C
