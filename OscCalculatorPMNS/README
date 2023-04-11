@@ -1,4 +1,5 @@
-I didn't own this package.
+I didn't own the source code of this package. Please find author and reference inside of the source code
+
 + T2K_true.C -> to plot the bi-probability for T2K, NOvA and DUNE
 + th23vsL.C then plot_th23vsL.C -> to study the correlation between mixing angle theta_23 and baseline
 + dcpvsL.C then plot_dcpvsL.C -> to study the correlation between dcp and baseline
