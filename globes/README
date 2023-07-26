@@ -1,1 +1,8 @@
 This is to provide some tutorials for using GLoBES framework https://www.mpi-hd.mpg.de/personalhomes/globes/index.html
+## You must download T2K pre-defined experiment from https://www.mpi-hd.mpg.de/personalhomes/globes/glb/T2K.html and extract all the files in the same folder
+## First modify the Makefile
+   - globes prefix must be changed to your repository
+   - For MacOS, you need to add `local_CFLAGS += -D_REENTRANT -stdlib=libc++ -I\path-to-your-root-header\`
+## For obtain the oscillation probabilities from GLoBES
+   - source code glbProb.c
+   - compile `make glbProb`
