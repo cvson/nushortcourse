@@ -6,3 +6,7 @@ This is to provide some tutorials for using GLoBES framework https://www.mpi-hd.
 ## For obtain the oscillation probabilities from GLoBES
    - source code glbProb.c
    - compile `make glbProb`
+   - run `./glbProb`, should produce `glbProb_4vson.root` output
+   - you can look at the graphs of probability inside or use 
+   - `plot_dcpth23_prob.C` to plot the probability of muon neutrino to electron neutrinos in 2D correlation between dcp and theta_23 mixing angle and also can obtain the iso-probability
+
