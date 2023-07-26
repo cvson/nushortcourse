@@ -1,0 +1,254 @@
+%!GLoBES
+
+$version="3.0.0"
+
+/* ####### Beam flux ####### */
+
+nuflux(#JHFplus)<
+	@flux_file="JHFplus.dat"
+	@time = 15	/* years */
+	@power = 0.77	/* MW (proton intensity) */
+	@norm = 10.918	/*10*pow(295,2)*6.022*1e32 *1e-38/(3*0.16)*/
+>
+
+nuflux(#JHFminus)<
+	@flux_file="JHFminus.dat"
+	@time = 15	/* years */
+	@power = 0.77 	/* MW (proton intensity) */
+	@norm = 10.918	/*10*pow(295,2)*6.022*1e32 *1e-38/(3*0.16)*/
+>
+
+/* ####### Detector settings ###### */
+
+$target_mass = 	25.	/* kt (fiducial mass)*/
+
+/* ####### Energy window ####### */
+
+$bins = 	200
+$emin = 	0.0	/* GeV */
+$emax = 	5.0	/* GeV */
+
+
+/* ####### Baseline setting ####### */
+
+$profiletype =	 	1 
+$baseline =		295.0	/* km */
+
+
+/* ####### Technical information ####### */
+
+$filter_state = 0 
+$filter_value = 1000000 
+
+/* ####### Energy resolution ####### */
+
+energy(#ERES)<
+	@type = 1
+	@sigma_e = {0.0,0.03,0.085}
+>
+
+/* ####### Cross sections ####### */
+
+cross(#CC)<
+	@cross_file = "XCC.dat"
+>
+
+cross(#CCnonQE)<
+	@cross_file = "XCCnonQE.dat"
+>
+
+cross(#NC)<
+	@cross_file = "XNC.dat"
+>
+
+cross(#QE)<
+	@cross_file = "XQE.dat"
+>
+
+/* ####### Channel definitions ####### */
+
+
+/*NUE_APP*/
+
+channel(#nu_e_appearance_QE)<
+	@channel = 	#JHFplus:	+:	m:	e:	#QE:    #ERES
+>
+
+channel(#nu_e_bar_appearance_QE)<
+	@channel = 	#JHFplus:	-:	m:	e:	#QE:    #ERES
+>
+
+
+channel(#nu_mu_disappearance_CC)<
+	@channel = 	#JHFplus:	+:	m:	m:	#CC:    #ERES
+>
+
+channel(#nu_mu_bar_disappearance_CC)<
+	@channel = 	#JHFplus:	-:	m:	m:	#CC:    #ERES
+>
+
+channel(#nu_e_beam)<
+	@channel = 	#JHFplus:	+:	e:	e:	#CC:    #ERES
+>
+
+channel(#nu_e_bar_beam)<
+	@channel = 	#JHFplus:	-:	e:	e:	#CC:    #ERES
+>
+
+channel(#NC_bckg)<
+	@channel = 	#JHFplus:	+:	NOSC_m:	NOSC_m:	#NC:    #ERES
+>
+
+
+
+/* NUEBAR_APP */
+
+channel(#ANTI_nu_e_appearance_QE)<
+	@channel = 	#JHFminus:	+:	m:	e:	#QE:    #ERES
+>
+
+channel(#ANTI_nu_e_bar_appearance_QE)<
+	@channel = 	#JHFminus:	-:	m:	e:	#QE:    #ERES
+>
+
+channel(#ANTI_nu_mu_disappearance_CC)<
+	@channel = 	#JHFminus:	+:	m:	m:	#CC:    #ERES
+>
+
+channel(#ANTI_nu_mu_bar_disappearance_CC)<
+	@channel = 	#JHFminus:	-:	m:	m:	#CC:    #ERES
+>
+
+channel(#ANTI_nu_e_beam)<
+	@channel = 	#JHFminus:	+:	e:	e:	#CC:    #ERES
+>
+
+channel(#ANTI_nu_e_bar_beam)<
+	@channel = 	#JHFminus:	-:	e:	e:	#CC:    #ERES
+>
+
+channel(#NC_bar_bckg)<
+	@channel = 	#JHFminus:	-:	NOSC_m:	NOSC_m:	#NC:    #ERES
+>
+
+channel(#NC_bar_bckg_ws)<
+        @channel =      #JHFminus:      +:      NOSC_m: NOSC_m: #NC:    #ERES
+>
+
+/* NUMU_DISAPP */
+
+channel(#nu_mu_disappearance_QE)<
+	@channel = 	#JHFplus:	+:	m:	m:	#QE:    #ERES
+>
+
+channel(#nu_mu_disappearance_nonQE)<
+	@channel = 	#JHFplus:	+:	m:	m:	#CCnonQE:    #ERES
+>
+
+channel(#nu_mu_bar_disappearance_QE)<
+	@channel = 	#JHFplus:	-:	m:	m:	#QE:    #ERES
+>
+
+channel(#nu_mu_bar_disappearance_nonQE)<
+	@channel = 	#JHFplus:	-:	m:	m:	#CCnonQE:    #ERES
+>
+
+
+channel(#nu_e_appearance_CC)<
+	@channel = 	#JHFplus:	+:	m:	e:	#CC:    #ERES
+>
+
+
+
+/* NUMUBAR_DISAPP */
+
+
+channel(#ANTI_nu_mu_disappearance_QE)<
+	@channel = 	#JHFminus:	+:	m:	m:	#QE:    #ERES
+>
+
+channel(#ANTI_nu_mu_bar_disappearance_QE)<
+	@channel = 	#JHFminus:	-:	m:	m:	#QE:    #ERES
+>
+
+channel(#ANTI_nu_mu_disappearance_nonQE)<
+	@channel = 	#JHFminus:	+:	m:	m:	#CCnonQE:    #ERES
+>
+
+channel(#ANTI_nu_mu_bar_disappearance_nonQE)<
+	@channel = 	#JHFminus:	-:	m:	m:	#CCnonQE:    #ERES
+>
+
+
+channel(#ANTI_nu_e_appearance_CC)<
+	@channel = 	#JHFminus:	+:	m:	e:	#CC:    #ERES
+>
+
+/* ADD NC separate for disappearance*/
+channel(#NC_bckg_dis)<
+        @channel =      #JHFplus:       +:      NOSC_m: NOSC_m: #NC:    #ERES
+>
+
+channel(#NC_bar_bckg_dis)<
+        @channel =      #JHFminus:      -:      NOSC_m: NOSC_m: #NC:    #ERES
+>
+
+
+
+
+/* ####### Setting the appearance rules ####### */
+
+rule(#NU_E_Appearance_QE)<
+ 	@signal = 0.655484@#nu_e_appearance_QE : 0.461538@#nu_e_bar_appearance_QE 
+	@signalerror = 0.03 : 0.0001
+
+	@background =  0.000247036@#nu_mu_disappearance_CC  : 0.000247036@#nu_mu_bar_disappearance_CC : 0.198383@#nu_e_beam : 0.198383@#nu_e_bar_beam : 0.00413907@#NC_bckg  
+	@backgrounderror = 0.03 : 0.0001    
+	
+	@sys_on_function = "chiSpectrumTilt"  
+	@sys_off_function = "chiNoSysSpectrum" 
+
+	@energy_window = 0.10 : 1.3 
+> 
+
+
+rule(#NU_E_BAR_Appearance_QE)<
+	@signal = 0.706977@#ANTI_nu_e_bar_appearance_QE : 0.458515@#ANTI_nu_e_appearance_QE 
+	@signalerror = 0.03 : 0.0001
+
+	@background = 0.000121921@#ANTI_nu_mu_disappearance_CC : 0.000121921@#ANTI_nu_mu_bar_disappearance_CC : 0.175556@#ANTI_nu_e_beam : 0.175556@#ANTI_nu_e_bar_beam : 0.00451977@#NC_bar_bckg : 0.00451977@#NC_bar_bckg_ws
+	@backgrounderror = 0.03 : 0.0001    
+	
+	@sys_on_function = "chiSpectrumTilt"  
+	@sys_off_function = "chiNoSysSpectrum" 
+
+	@energy_window = 0.10 : 1.3 
+>
+
+rule(#NU_MU_Disapperance_QE)<
+	@signal = 0.71159@#nu_mu_disappearance_QE : 0.204152@#nu_mu_disappearance_nonQE : 0.717829@#nu_mu_bar_disappearance_QE : 0.204152@#nu_mu_bar_disappearance_nonQE 
+	@signalerror = 0.03 : 0.0001   
+
+	@background = 0.00845433@#nu_e_beam : 0.00845433@#nu_e_bar_beam : 0.0269193@#NC_bckg_dis : 0.00845433@#nu_e_appearance_CC
+	@backgrounderror = 0.03 : 0.0001
+	
+	@sys_on_function = "chiSpectrumTilt"  
+	@sys_off_function = "chiNoSysSpectrum"
+	@energy_window = 0.20 : 5.05 
+	
+>
+
+rule(#NU_MU_BAR_Disappearance_QE)<
+	@signal = 0.775106@#ANTI_nu_mu_bar_disappearance_QE:0.657685@#ANTI_nu_mu_disappearance_QE : 0.24543@#ANTI_nu_mu_disappearance_nonQE : 0.24543@#ANTI_nu_mu_bar_disappearance_nonQE
+	@signalerror = 0.03 : 0.0001
+
+	@background = 0.00577293@#ANTI_nu_e_beam : 0.00577293@#ANTI_nu_e_bar_beam : 0.0252354@#NC_bar_bckg_dis : 0.00577293@#ANTI_nu_e_appearance_CC
+	@backgrounderror = 0.03 : 0.0001
+
+	
+	@sys_on_function = "chiSpectrumTilt"  
+	@sys_off_function = "chiNoSysSpectrum"
+	@energy_window = 0.20 : 5.05 
+>
+
+/**********************END**********************/	
