@@ -1,5 +1,6 @@
 This is to provide some tutorials for using GLoBES framework https://www.mpi-hd.mpg.de/personalhomes/globes/index.html
-## You must download T2K pre-defined experiment from https://www.mpi-hd.mpg.de/personalhomes/globes/glb/T2K.html and extract all the files in the same folder
+## T2K pre-defined experiment from https://www.mpi-hd.mpg.de/personalhomes/globes/glb/T2K.html but it is out of date and it is not simple to explain for students in a short introduction. 
+## We then decide to use the one we used in the https://inspirehep.net/literature/1870125
 ## First modify the Makefile
    - globes prefix must be changed to your repository
    - For MacOS, you need to add `local_CFLAGS += -D_REENTRANT -stdlib=libc++ -I\path-to-your-root-header\`
