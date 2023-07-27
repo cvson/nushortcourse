@@ -58,8 +58,8 @@ local_LTLDFLAGS:=$(shell $(globesconf) --ltlibs)
 
 
 
-BIN = glbProb eventrateall test_cp_null
-OBJ = glbProb.o eventrateall.o test_cp_null.o
+BIN = glbProb eventrateall test_cp_null test_cp_null_fakedata
+OBJ = glbProb.o eventrateall.o test_cp_null.o test_cp_null_fakedata.o
 
 all: $(BIN)
 
@@ -71,6 +71,9 @@ eventrateall: eventrateall.o
 
 test_cp_null: test_cp_null.o
 	g++ test_cp_null.o -o test_cp_null  $(LDFLAGS) $(local_LDFLAGS)
+
+test_cp_null_fakedata: test_cp_null_fakedata.o
+	g++ test_cp_null_fakedata.o -o test_cp_null_fakedata  $(LDFLAGS) $(local_LDFLAGS)
 
 %.o : %.c
 	g++ $(CFLAGS) $(local_CFLAGS) -c $< $(INCFLAGS)
