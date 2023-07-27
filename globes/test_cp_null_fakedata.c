@@ -15,8 +15,11 @@
 //without smearing
 /*char MYFILE[]="t2k2_final_nosmear_sensi_cp.root";
  char AEDLFILE[]="t2k2_final_nosmear.glb";*/
-char MYFILE[]="t2k2_final_wsmear_fakedata_cp.root";
-char AEDLFILE[]="t2k2_final_wsmear_wdata.glb";
+/*char MYFILE[]="t2k2_final_wsmear_fakedata_cp.root";
+char AEDLFILE[]="t2k2_final_wsmear_wdata.glb";*/
+
+char MYFILE[]="t2k2_final_wsmear_fakedata_cp_poissonFluc.root";
+char AEDLFILE[]="t2k2_final_wsmear_wdata_poissonFluc.glb";
 
 int main(int argc, char *argv[])
 { 
@@ -206,6 +209,8 @@ int main(int argc, char *argv[])
     TH1D *hchisq_min_nh_nh_sys= new TH1D("hchisq_min_nh_nh_sys","",NDELTApoint,-1.0*M_PI,1.0*M_PI);
     TH1D *hchisq_min_glob_proj = new TH1D("hchisq_min_glob_proj","",NDELTApoint,-1.0*M_PI,1.0*M_PI);
     TH1D *hchisq_min_nh_proj= new TH1D("hchisq_min_nh_proj","",NDELTApoint,-1.0*M_PI,1.0*M_PI);
+    TH1D *hchisq_min_ih_proj= new TH1D("hchisq_min_ih_proj","",NDELTApoint,-1.0*M_PI,1.0*M_PI);
+
     
     for (i = 0; i < NDELTApoint ; i++){
         chi_sys_min = 999. ;
@@ -228,10 +233,11 @@ int main(int argc, char *argv[])
         hchisq_min_glob_proj->SetBinContent(i+1,sqrt(chi_cor_min-global_minChisq_cor));
         
         //if MH is known
-        if(minChisq_cor_nh<minChisq_cor_ih) chi_cor_min_mh=chi0n_cor[i] ;
-        else chi_cor_min_mh=chi0i_cor[i] ;
-        hchisq_min_nh_proj->SetBinContent(i+1,sqrt(chi_cor_min_mh-global_minChisq_cor));
-        
+        //if(minChisq_cor_nh<minChisq_cor_ih) chi_cor_min_mh=chi0n_cor[i] ;
+        //else chi_cor_min_mh=chi0i_cor[i] ;
+        //hchisq_min_nh_proj->SetBinContent(i+1,sqrt(chi_cor_min_mh-global_minChisq_cor));
+        hchisq_min_nh_proj->SetBinContent(i+1,sqrt(chi0n_cor[i]-global_minChisq_cor));
+        hchisq_min_ih_proj->SetBinContent(i+1,sqrt(chi0i_cor[i]-global_minChisq_cor));
         
     }
      
@@ -247,6 +253,7 @@ int main(int argc, char *argv[])
     hchisq_min_nh_nh_sys ->Write();
     hchisq_min_glob_proj ->Write();
     hchisq_min_nh_proj ->Write();
+    hchisq_min_ih_proj ->Write();
     
     
     poutfile->Close();
