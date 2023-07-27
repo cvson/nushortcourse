@@ -4,15 +4,22 @@ This is to provide some tutorials for using GLoBES framework https://www.mpi-hd.
    - globes prefix must be changed to your repository
    - For MacOS, you need to add `local_CFLAGS += -D_REENTRANT -stdlib=libc++ -I\path-to-your-root-header\`
 ## For obtain the oscillation probabilities from GLoBES
-   - source code in glbProb.c
+   - source code in `glbProb.c`
    - compile `make glbProb`
    - run `./glbProb`, should produce `glbProb_4vson.root` output
    - you can look at the graphs of probability inside or use 
    - `plot_dcpth23_prob.C` to plot the probability of muon neutrino to electron neutrinos in 2D correlation between dcp and theta_23 mixing angle and also can obtain the iso-probability
 
 ## For obtain the event rate with and without smearing in the post-efficiency
-   - source code in eventrateall.c
+   - source code in `eventrateall.c`
    - compile `make eventrateall`
    - run `./eventrateall`
    - modify to run with t2k2_final_wsmear.glb and t2k2_final_nosmear.glb to produce eventrate_all_t2k2_final_wsmear.root and eventrate_all_t2k2_final_nosmear.root
    - To make event rate histogram, run checkWithSmearing_all_final.C and checkNoSmearing_all_final.C
+
+## For sensitivity 
+  - source code in `test_cp_null.c`
+  - compile `make test_cp_null`
+  - run `./test_cp_null`
+  - modify to run with t2k2_final_wsmear.glb and t2k2_final_nosmear.glb to produce t2k2_final_wsmear_sensi_cp.root and t2k2_final_nosmear_sensi_cp.root
+  - plot and compare with T2K using `plot_dcp_t2k2.C`
