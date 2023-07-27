@@ -23,3 +23,8 @@ This is to provide some tutorials for using GLoBES framework https://www.mpi-hd.
   - run `./test_cp_null`
   - modify to run with t2k2_final_wsmear.glb and t2k2_final_nosmear.glb to produce t2k2_final_wsmear_sensi_cp.root and t2k2_final_nosmear_sensi_cp.root
   - plot and compare with T2K using `plot_dcp_t2k2.C`
+
+## For generate fake data and make a fit on this fake data
+  - use `createFakeData_forFit.C` to make a fake data, the data is copied over to `t2k2_final_wsmear_wdata.glb`
+  - use program in `test_cp_null_fakedata.c`
+  - compile `make test_cp_null_fakedata`
